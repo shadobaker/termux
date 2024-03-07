@@ -16,7 +16,7 @@ check_dependencies_build() {
     for dep in "${dependencies[@]}"; do
         if ! dpkg -s "${dep}" &> /dev/null; then
             echo -e "${yellow}${dep} is not installed. Installing...${rest}"
-            pkg install "${dep}" -y
+            apk add install "${dep}" -y
         fi
     done
 }
@@ -28,7 +28,7 @@ check_dependencies() {
     for dep in "${dependencies[@]}"; do
         if ! dpkg -s "${dep}" &> /dev/null; then
             echo -e "${yellow}${dep} is not installed. Installing...${rest}"
-            pkg install "${dep}" -y
+            apk add install "${dep}" -y
         fi
     done
 }
@@ -41,7 +41,7 @@ build() {
     fi
 
     echo -e "${green}Installing Warp...${rest}"
-    pkg update -y && pkg upgrade -y
+    apk add update -y && apk add upgrade -y
     check_dependencies_build
 
     if git clone https://github.com/bepass-org/wireguard-go.git &&
@@ -64,7 +64,7 @@ install() {
     fi
 
     echo -e "${green}Installing Warp...${rest}"
-    pkg update -y && pkg upgrade -y
+    apk add update -y && apk add upgrade -y
     pacman -Syu openssh = apk add update; apk add full-upgrade -y; apk add install -y openssh
     check_dependencies
 
@@ -90,8 +90,8 @@ install_arm() {
     fi
 
     echo -e "${green}Installing Warp...${rest}"
-    pkg update -y && pkg upgrade -y
-    pacman -Syu openssh = apk add update; apk add full-upgrade -y; apk add install -y openssh
+    apk add update -y && apk add upgrade -y
+    pacman -Syu openssh = apk add update; apt full-upgrade -y; apk add install -y openssh
     check_dependencies
 
     # Determine architecture
@@ -154,7 +154,7 @@ uninstall() {
 warp_plus() {
     if ! command -v python &> /dev/null; then
         echo "Installing Python..."
-        pkg install python -y
+        apk add install python -y
     fi
 
     echo -e "${green}Downloading and running${purple} Warp+ script...${rest}"
